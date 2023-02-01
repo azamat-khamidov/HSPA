@@ -10,7 +10,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "Atlanta", "New York", "Chicago" };
+            return new string[] { "Atlanta", "New York", "Chicago", "Boston" };
         }
 
         [HttpGet("{id}")]
