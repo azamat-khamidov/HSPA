@@ -8,6 +8,6 @@ namespace WebApi.Data
         
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
-        public DbSet<City> Cities { get; }
+        public DbSet<City> Cities { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Interfaces;
 using WebApi.Models;
 
 namespace WebApi.Data.Repo
@@ -26,11 +27,6 @@ namespace WebApi.Data.Repo
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
             return await dc.Cities.ToListAsync();
-        }
-
-        public async Task<bool> SaveAsync()
-        {
-            return await dc.SaveChangesAsync() > 0;
         }
     }
 }
