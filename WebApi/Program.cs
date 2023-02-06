@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using WebApi.Data;
+using WebApi.Extensions;
 using WebApi.Helpers;
 using WebApi.Interfaces;
+using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,11 +22,10 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.ConfigureExceptionHandler();
+
+//app.ConfigureBuiltinExceptionHandler();
 
 app.UseCors(m=> m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
