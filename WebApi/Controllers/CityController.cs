@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Execution;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -9,9 +10,8 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CityController : ControllerBase
+    [Authorize]
+    public class CityController : BaseController
     {
         private readonly IUnitOfWork uow;
         private readonly IMapper mapper;
@@ -24,17 +24,11 @@ namespace WebApi.Controllers
 
         // Get api/city
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCities()
         {
-            throw new UnauthorizedAccessException();
             var cities = await uow.CityRepository.GetCitiesAsync();
             var citiesDto = mapper.Map<IEnumerable<CityDto>>(cities);
-            //var citiesDto = from c in cities
-            //                select new CityDto()
-            //                {
-            //                    Id = c.Id,
-            //                    Name = c.Name,
-            //                };
             return Ok(citiesDto);
         }
 
@@ -45,11 +39,6 @@ namespace WebApi.Controllers
             var city = mapper.Map<City>(cityDto);
             city.LastUpdatedBy = 1;
             city.LastUpdatedOn = DateTime.Now;
-            //var city = new City {
-            //    Name = cityDto.Name,
-            //    LastUpdatedBy = 1,
-            //    LastUpdatedOn = DateTime.Now,
-            //};
             uow.CityRepository.AddCity(city);
             await uow.SaveAsync();
             return StatusCode(201);
